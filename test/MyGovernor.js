@@ -1,5 +1,5 @@
 const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
-const { assert } = require("chai");
+const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const { toUtf8Bytes, keccak256, parseEther } = ethers.utils;
 
@@ -18,10 +18,10 @@ describe("MyGovernor", function () {
     const MyGovernor = await ethers.getContractFactory("MyGovernor");
     const governor = await MyGovernor.deploy(futureAddress);
 
-    const MyToken = await ethers.getContractFactory("MyToken");
-    const token = await MyToken.deploy(governor.address);
+    const GovToken = await ethers.getContractFactory("GovToken");
+    const token = await GovToken.deploy(governor.address);
 
-    await token.delegate(owner.address);
+    await token.delegate(owner.address); // delegating voting weight of 10000 tokens 
 
     return { governor, token, owner, otherAccount };
   }
@@ -30,7 +30,7 @@ describe("MyGovernor", function () {
     const { token, owner } = await loadFixture(deployFixture);
 
     const balance = await token.balanceOf(owner.address);
-    assert.equal(balance.toString(), parseEther("10000"));
+    expect(balance.toString()).to.equal(parseEther("10000"));
   });
 
   describe("after proposing", () => {
@@ -42,7 +42,7 @@ describe("MyGovernor", function () {
         [token.address],
         [0],
         [token.interface.encodeFunctionData("mint", [owner.address, parseEther("25000")])],
-        "Give the owner more tokens!"
+        "Give the owner 25000 more tokens!"
       );
       const receipt = await tx.wait();
       const event = receipt.events.find(x => x.event === 'ProposalCreated');
@@ -58,7 +58,7 @@ describe("MyGovernor", function () {
       const { governor, proposalId } = await loadFixture(afterProposingFixture);
       
       const state = await governor.state(proposalId);
-      assert.equal(state, 0);
+      expect(state).to.equal(0);
     });
     
     describe("after voting", () => {
@@ -79,8 +79,8 @@ describe("MyGovernor", function () {
       it("should have set the vote", async () => {
         const { voteCastEvent, owner } = await loadFixture(afterVotingFixture);
 
-        assert.equal(voteCastEvent.args.voter, owner.address);
-        assert.equal(voteCastEvent.args.weight.toString(), parseEther("10000").toString());
+        expect(voteCastEvent.args.voter).to.equal(owner.address);
+        expect(voteCastEvent.args.weight.toString()).to.equal(parseEther("10000").toString());
       });
 
       it("should allow executing the proposal", async () => {
@@ -90,11 +90,11 @@ describe("MyGovernor", function () {
           [token.address],
           [0],
           [token.interface.encodeFunctionData("mint", [owner.address, parseEther("25000")])],
-          keccak256(toUtf8Bytes("Give the owner more tokens!"))
+          keccak256(toUtf8Bytes("Give the owner 25000 more tokens!"))
         );
 
         const balance = await token.balanceOf(owner.address);
-        assert.equal(balance.toString(), parseEther("35000").toString());
+        expect(balance.toString()).to.equal(parseEther("35000").toString());
       });
     });
   });

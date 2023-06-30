@@ -12,7 +12,7 @@ async function main() {
   const MyGovernor = await ethers.getContractFactory("MyGovernor");
   const governor = await MyGovernor.deploy(futureAddress);
 
-  const MyToken = await ethers.getContractFactory("MyToken");
+  const GovToken = await ethers.getContractFactory("GovToken");
   const token = await MyToken.deploy(governor.address);
 
   console.log(

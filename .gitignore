@@ -11,3 +11,6 @@ typechain-types
 cache
 artifacts
 
+#Misc
+contracts/MyToken.sol.bak
+contracts/MyToken.sol
