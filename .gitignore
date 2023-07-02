@@ -14,3 +14,8 @@ artifacts
 #Misc
 contracts/MyToken.sol.bak
 contracts/MyToken.sol
+
+#Temp
+scripts/create.js
+scripts/execute.js
+scripts/vote.js

@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-  const [owner, otherAccount] = await ethers.getSigners();
+  const [owner] = await ethers.getSigners();
 
   const transactionCount = await owner.getTransactionCount();
 
