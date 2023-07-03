@@ -5,12 +5,12 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 
-contract MyToken is ERC20, ERC20Permit, ERC20Votes {
+contract GovToken is ERC20, ERC20Permit, ERC20Votes {
     address governor;
 
-    constructor(address _governor) ERC20("MyToken", "MTK") ERC20Permit("MyToken") {
+    constructor(address _governor) ERC20("GovToken", "GOV") ERC20Permit("GovToken") {
         governor = _governor;
-        _mint(msg.sender, 10000e18);
+        _mint(msg.sender, 10000e18); // 10000 tokens [or] 1 vote with weight of 10000 tokens
     }
 
     function mint(address to, uint256 amount) external {
