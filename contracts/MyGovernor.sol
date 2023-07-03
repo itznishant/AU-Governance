@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFractio
 contract MyGovernor is Governor, GovernorSettings, GovernorCountingSimple, GovernorVotes, GovernorVotesQuorumFraction {
     constructor(IVotes _token)
         Governor("MyGovernor")
-        GovernorSettings(1 /* 1 block */, 5 /* 1 minute */, 0)
+        GovernorSettings(1 /* 1 block */, 75 /* 15 minutes */, 0)
         GovernorVotes(_token)
         GovernorVotesQuorumFraction(4)
     {}

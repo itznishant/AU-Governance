@@ -12,8 +12,4 @@ cache
 artifacts
 
 #Misc
-# contracts/MyToken.sol
-
-#Temp
-scripts/execute.js
-scripts/vote.js
+#contracts/MyToken.sol

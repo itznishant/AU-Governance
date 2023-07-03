@@ -1,9 +1,10 @@
 const { ethers } = require("hardhat");
-const { toUtf8Bytes, keccak256, parseEther } = ethers.utils;
+const { parseEther } = ethers.utils;
 require("dotenv").config();
 
-const governorAddress = process.env.GOVERNOR_ADDRESS_SEPOLIA;
-const tokenAddress = process.env.TOKEN_ADDRESS_SEPOLIA;
+const governorAddress = process.env.GOVERNOR_CA_SEPOLIA;
+
+const tokenAddress = process.env.TOKEN_CA_SEPOLIA;
 
 async function createProposal() {
   const [owner] = await ethers.getSigners();
@@ -19,11 +20,10 @@ async function createProposal() {
   const receipt = await tx.wait();
   const event = receipt.events.find(x => x.event === 'ProposalCreated');
 
-  const proposalId = await event.args.proposalId; // proposal id (hash)
+  const proposalId = await event.args.proposalId; //proposal id (hash)
   const proposer = await event.args.proposer;   //address of proposal creator
 
   console.log("PROPOSAL ID: ", (await proposalId).toString());
-
   console.log("PROPOSER: ", (await proposer).toString());
 
 }

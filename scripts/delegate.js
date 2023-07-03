@@ -1,19 +1,18 @@
 const { ethers } = require("hardhat");
-const { parseEther, parseUnits } = ethers.utils;
 require("dotenv").config();
 
-const governorAddress = process.env.GOVERNOR_ADDRESS_SEPOLIA;
+const governorAddress = process.env.GOVERNOR_CA_SEPOLIA;
 
-const tokenAddress = process.env.TOKEN_ADDRESS_SEPOLIA;
+const tokenAddress = process.env.TOKEN_CA_SEPOLIA;
 
 async function delegateVotes() {
   const [owner] = await ethers.getSigners();
 
-  const governor = await ethers.getContractAt("MyGovernor", governorAddressLocal);
+  const governor = await ethers.getContractAt("MyGovernor", governorAddress);
 
-  const token = await ethers.getContractAt("GovToken", tokenAddressLocal);
+  const token = await ethers.getContractAt("GovToken", tokenAddress);
 
-  // await token.delegate(owner.address); // delegating voting weight of GOV tokens
+  await token.delegate(owner.address); // delegating voting weight of GOV tokens
 
   const votesDelegated = await token.getVotes(owner.address); // gets votes delegated to owner
 

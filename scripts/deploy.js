@@ -5,7 +5,7 @@ async function main() {
 
   const transactionCount = await owner.getTransactionCount();
 
-  // gets the address of the token before it is deployed
+  // gets the address of token before it is deployed
   const futureAddress = ethers.utils.getContractAddress({
     from: owner.address,
     nonce: transactionCount + 1
